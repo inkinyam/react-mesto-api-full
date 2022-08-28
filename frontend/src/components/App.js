@@ -172,7 +172,7 @@ const App = () => {
   const onLogin = (password, email) => {
     mestoAuth.authorize (password, email)
       .then(res => {
-        localStorage.setItem('token', res.token);
+        localStorage.setItem('jwt', res.jwt);
         setEmail(email);
         handleLogin(true);
         navigate('/');
@@ -184,11 +184,11 @@ const App = () => {
 
 /*проверяем корректен ли токен, который хранится в local storage*/
   React.useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      mestoAuth.checkToken(token)
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      mestoAuth.checkToken(jwt)
         .then(res => { 
-          setEmail(res.data.email);
+          setEmail(res.email);
           handleLogin(true);
           navigate('/');
         })
@@ -200,7 +200,7 @@ const App = () => {
  
 /*удаляем из local storage токен и разлогиниваемся*/
   const onSignOut = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('jwt');
     handleLogin(false);
   };
 

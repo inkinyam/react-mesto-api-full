@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 
 const { celebrate, Joi } = require('celebrate');
@@ -30,14 +31,14 @@ const limiter = rateLimit({
   max: 1000, // можно совершить максимум 1000 запросов с одного IP
 });
 
-/* app.use(handleCors());  обработка CORS запросов */
-
 app.use(helmet());
 app.use(limiter); // защита от ддос атак
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger);
+
+app.use(cors());
 
 // роут для регистрации
 app.post('/signup', celebrate({

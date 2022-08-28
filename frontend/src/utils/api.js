@@ -4,6 +4,13 @@
     this.headers = headers;
   }
 
+// получаем токен из localStorage и записываем его в хедерс
+  _getHeaders() {
+    const jwt = localStorage.getItem('jwt');
+    return jwt ? { Authorization: `Bearer ${jwt}` } : {};
+  }
+
+
 //метод, проверяющий какой результат пришел, возвращает объект если ок, и ошибку, если нет
   _checkRes(res) {
     if (res.ok) {
@@ -15,7 +22,7 @@
 //метод, который реализует получение карточки с сервера
   getCards () {
     return fetch (`${this.baseUrl}/cards`, {
-      headers: this.headers
+      headers: {...this.headers, ...this._getHeaders()},
     })
     .then (res => {return this._checkRes(res)})
   }
@@ -23,7 +30,7 @@
  // метод, который реализует получение данные пользователя с сервера
   getUserData () {
     return fetch (`${this.baseUrl}/users/me`, {
-      headers: this.headers
+      headers: {...this.headers, ...this._getHeaders()},
     })
     .then (res => {return this._checkRes(res)})
   }
@@ -31,7 +38,7 @@
  // метод, который реализует редактирование данных пользователя на сервере
   postUserData (userName, about){
     return fetch (`${this.baseUrl}/users/me`, {
-      headers: this.headers,
+      headers: {...this.headers, ...this._getHeaders()},
       method: 'PATCH',
       body: JSON.stringify({name: userName, about: about}),
     })
@@ -41,7 +48,7 @@
   //  метод, который реализует редактирование автара пользователя на сервере
   postUserPhoto (link){
     return fetch (`${this.baseUrl}/users/me/avatar`, {
-      headers: this.headers,
+      headers: {...this.headers, ...this._getHeaders()},
       method: 'PATCH',
       body: JSON.stringify({avatar: link}),
     })
@@ -51,7 +58,7 @@
 // метод, который реализует отправление карточки на сервер
   postCard (cardName, link){
     return fetch (`${this.baseUrl}/cards`, {
-      headers: this.headers,
+      headers: {...this.headers, ...this._getHeaders()},
       method: 'POST',
       body: JSON.stringify({name: cardName, link: link}),
     })
@@ -61,7 +68,7 @@
 // метод, который реализует установку лайка на карточку
   putLike (cardId){
     return fetch (`${this.baseUrl}/cards/${cardId}/likes`, {
-      headers: this.headers,
+      headers: {...this.headers, ...this._getHeaders()},
       method: 'PUT',
     })
     .then (res => {return this._checkRes(res)})
@@ -70,7 +77,7 @@
 // метод, который реализует удаление лайка с карточки
   deleteLike (cardId){
     return fetch (`${this.baseUrl}/cards/${cardId}/likes`, {
-      headers: this.headers,
+      headers: {...this.headers, ...this._getHeaders()},
       method: 'DELETE',
     })
     .then (res => {return this._checkRes(res)})
@@ -80,14 +87,14 @@
   deleteCard (cardId) {
     return fetch (`${this.baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
-      headers: this.headers
+      headers: {...this.headers, ...this._getHeaders()},
     })
     .then (res => {return this._checkRes(res)})
   }
 }
 
 /*создаем и экспортируем экземпляр класса api для использования в App*/ 
-const api = new Api ('api.inkinyam.nomoredomains.sbs', {
+const api = new Api ('http://localhost:3001', {
   headers: {
     'Content-Type': 'application/json'
   }

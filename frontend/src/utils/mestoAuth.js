@@ -14,7 +14,7 @@ const checkRes = (res) => {
 export const register = (password, email) => {
   return fetch(`${BASE_URL}/signup`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
                         password: password, 
                         email: email 
@@ -27,7 +27,7 @@ export const register = (password, email) => {
 export const authorize = (password, email) => {
   return fetch(`${BASE_URL}/signin`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
                         password: password, 
                         email: email 
@@ -37,11 +37,11 @@ export const authorize = (password, email) => {
 };
 
 /*функция для отправки запроса на проверку токена*/
-export const checkToken = (token) => {
+export const checkToken = (jwt) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
-    headers: { "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
+    headers: { 'Content-Type': 'application/json',
+                Authorization: `Bearer ${jwt}`
               },
     }).then(checkRes);
   };
