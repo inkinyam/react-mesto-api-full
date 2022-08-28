@@ -15,18 +15,18 @@
 ### Инструменты, используемые в работы:
 Обе части приложения выложены на одном сервере с доступом через домен.
 
-#### Frontend часть приложения:
+####  ![стрелка](./frontend/src/images/icon.png) Frontend часть приложения:
 расположена в директории `frontend/`
 
-![стрелка](https://img.icons8.com/fluency-systems-filled/30/checked.png) HTML,CSS и фреймфорк React JS
+HTML,CSS и фреймфорк React JS
 Проект опирается на методологию БЭМ. В частности используется файловая структура Nested.
 В проекте используется адаптивная верстка с помощью flex-box и grid для отображения проекта на разных устройствах с различным разрешением.
 Для реализации логики работы всех компонентов используется JavaScript и фреймворк React.
 
-#### Backend часть приложения:
+#### ![стрелка](./frontend/src/images/icon.png) Backend часть приложения:
 расположена в директории `backend/`
 
-![стрелка](https://img.icons8.com/fluency-systems-filled/30/checked.png) Node.js, express.js, mongoDB, mongoose, ngnix, pm2
+Node.js, express.js, mongoDB, mongoose, ngnix, pm2
 В проекте организовано логгирование запросов и ошибок, доступ к серверу организован через SSH, обработка CORS-запросов на сервере
 
 ### Доменты для проекта:
