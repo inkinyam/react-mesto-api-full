@@ -87,9 +87,8 @@
 }
 
 /*создаем и экспортируем экземпляр класса api для использования в App*/ 
-const api = new Api ('https://mesto.nomoreparties.co/v1/cohort-41', {
+const api = new Api ('api.inkinyam.nomoredomains.sbs', {
   headers: {
-    authorization: '420a86b4-7133-4ca0-90cf-bb2cdda2a90c',
     'Content-Type': 'application/json'
   }
 })
