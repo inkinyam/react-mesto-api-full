@@ -9,7 +9,7 @@ const { celebrate, Joi } = require('celebrate');
 
 const auth = require('./middlewares/auth');
 const handleErrors = require('./middlewares/handleErrors');
-const handleCors = require('./middlewares/handeCors');
+/* const handleCors = require('./middlewares/handeCors'); */
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { ErrNotFound } = require('./errors/errors');
 
@@ -30,7 +30,7 @@ const limiter = rateLimit({
   max: 1000, // можно совершить максимум 1000 запросов с одного IP
 });
 
-app.use(handleCors()); // обработка CORS запросов
+/* app.use(handleCors());  обработка CORS запросов */
 
 app.use(helmet());
 app.use(limiter); // защита от ддос атак
