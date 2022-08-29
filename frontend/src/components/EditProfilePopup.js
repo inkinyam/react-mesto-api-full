@@ -7,24 +7,24 @@ const EditProfilePopup = ({isOpen, onClose, onUpdateUser}) => {
   const currentUser = React.useContext(CurrentUserContext);
 
   /* стейт и обработка изменений на инпуте title*/
-  const [nameValue, setName] = React.useState('');
+  const [nameValue, setName] = React.useState(currentUser.name);
 
   function handleChangeName(e) {
     setName(e.target.value);
   }
 
     /* стейт и обработка изменений на инпуте subtitle*/
-  const [descriptionValue, setDescription] = React.useState('');
+  const [descriptionValue, setDescription] = React.useState(currentUser.about);
 
   function handleChangeDescription(e) {
     setDescription(e.target.value);
   }
 
-    /*обновляем значения инпутов при открытии*/
-    React.useEffect(() => {
-      setName(currentUser.name);
-      setDescription(currentUser.about);
-      }, [currentUser, isOpen]);
+  /*обновляем значения инпутов при открытии*/
+  React.useEffect(() => {
+    setName(currentUser.name);
+    setDescription(currentUser.about);
+  }, [currentUser, isOpen]);
 
   /* После загрузки текущего пользователя из API его данные будут использованы в управляемых компонентах.*/
   React.useEffect(() => {
@@ -52,7 +52,7 @@ const EditProfilePopup = ({isOpen, onClose, onUpdateUser}) => {
                     onClose  = {onClose}
                     onSubmit = {handleSubmit}>
                                               
-            <input value={nameValue} 
+            <input value={nameValue ? nameValue : ''} 
                    onChange={handleChangeName} 
                    type="text" 
                    className="popup__item popup__item_el_title" 
@@ -64,7 +64,7 @@ const EditProfilePopup = ({isOpen, onClose, onUpdateUser}) => {
                    required />
             <span className="popup__span-error edit-form__title-error"></span>
 
-            <input value={descriptionValue} 
+            <input value={descriptionValue ? descriptionValue : ''} 
                    onChange={handleChangeDescription} 
                    type="text" 
                    className="popup__item popup__item_el_subtitle" 

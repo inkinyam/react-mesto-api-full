@@ -21,7 +21,7 @@ import { CurrentUserContext } from '../context/CurrentUserContext.js';
 
 const App = () => {
   /*установка контекста для пользователя*/
-  const [currentUser, getCurrentUser] = React.useState({name: '', about: '', avatar: ''});
+  const [currentUser, getCurrentUser] = React.useState({});
 
   React.useEffect(()=>{
     api.getUserData()
@@ -83,7 +83,7 @@ const App = () => {
   const handleUpdateUser = ({name, about}) => {
     api.postUserData(name, about)
       .then((userData)=>{
-        getCurrentUser(userData);
+        getCurrentUser(userData.user);
         closeAllPopups();
       })
       .catch((err) => console.error(err));
@@ -93,6 +93,7 @@ const App = () => {
   const handleUpdateAvatar = (avatar) => {
     api.postUserPhoto(avatar)
       .then((userData)=>{
+        console.log(userData)
         getCurrentUser(userData);
         closeAllPopups();
       })
@@ -103,7 +104,7 @@ const App = () => {
   React.useEffect(()=>{
     api.getCards()
       .then((cardsData)=>{
-        setCards(cardsData);
+         setCards(cardsData.reverse());
       })
       .catch((err) => console.error(err));
   }, [])
@@ -114,7 +115,7 @@ const App = () => {
 
 /* обработчик нажатия кнопки лайк на карточке*/ 
   const handleCardLike = (card) => {
-     const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = Array.isArray(card.likes) ? card.likes.includes(currentUser._id) : false;
 
     /*в соответствии с вернувшимся результатом вызываем нужный метод api*/
     if (isLiked) {
