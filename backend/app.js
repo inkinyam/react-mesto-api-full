@@ -19,7 +19,7 @@ const {
   login,
 } = require('./controllers/usersControllers');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 
 const DATABASE_URL = 'mongodb://localhost:27017/mestodb';
 mongoose.connect(DATABASE_URL);
