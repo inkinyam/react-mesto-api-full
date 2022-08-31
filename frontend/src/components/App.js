@@ -215,7 +215,16 @@ const App = () => {
       <div className="App">
         <div className="page">
            
-          <Routes>
+        <Routes>
+
+            <Route path="/sign-up"
+                   element = {<Register onRegister={onRegister}/> }>
+            </Route> 
+
+            <Route path="/sign-in"
+                   element = {<Login onLogin={onLogin}/> }>
+            </Route>
+            
             <Route  path="/"
                     element = {<ProtectedRoute loggedIn={loggedIn}>
                                  <Header onSignOut   = {onSignOut} 
@@ -233,13 +242,7 @@ const App = () => {
                               </ProtectedRoute>}>
             </Route>
 
-            <Route path="/sign-up"
-                   element = {<Register onRegister={onRegister}/> }>
-            </Route> 
-
-            <Route path="/sign-in"
-                   element = {<Login onLogin={onLogin}/> }>
-            </Route>
+          
 
             <Route path="*"
                    element = {loggedIn ? <Navigate to="/" /> : <Navigate to="/sign-in" /> }>
