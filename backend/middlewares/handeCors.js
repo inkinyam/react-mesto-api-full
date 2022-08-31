@@ -1,9 +1,8 @@
 const allowedCors = [
   'http://inkinyam.nomoredomains.sbs',
   'https://inkinyam.nomoredomains.sbs',
-  'http://51.250.80.195',
-  'localhost:3000',
-  'http://localhost:3000',
+  'http://api.inkinyam.nomoredomains.sbs',
+  'https://api.inkinyam.nomoredomains.sbs',
 ];
 
 // eslint-disable-next-line consistent-return
