@@ -14,6 +14,10 @@ const handleErrors = require('./middlewares/handleErrors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { ErrNotFound } = require('./errors/errors');
 
+const allowedCors = {
+  origin: ['http://inkinyam.nomoredomains.sbs', 'https://inkinyam.nomoredomains.sbs', 'http://api.inkinyam.nomoredomains.sbs', 'https://api.inkinyam.nomoredomains.sbs'],
+  credentials: true};
+
 const {
   addUser,
   login,
@@ -38,7 +42,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger);
 
-app.use(cors());
+app.use(cors(allowedCors));
 
 // роут для регистрации
 app.post('/signup', celebrate({
