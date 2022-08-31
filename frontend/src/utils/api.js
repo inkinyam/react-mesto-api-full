@@ -94,7 +94,7 @@
 }
 
 /*создаем и экспортируем экземпляр класса api для использования в App*/ 
-const api = new Api ('http://api.inkinyam.nomoredomains.sbs', {
+const api = new Api ('https://api.inkinyam.nomoredomains.sbs', {
   headers: {
     'Content-Type': 'application/json'
   }
