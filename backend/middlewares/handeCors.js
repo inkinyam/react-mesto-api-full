@@ -1,4 +1,5 @@
 const allowedCors = [
+  'http://inkinyam.nomoredomains.sbs',
   'https://inkinyam.nomoredomains.sbs',
   'http://51.250.80.195',
   'localhost:3000',
