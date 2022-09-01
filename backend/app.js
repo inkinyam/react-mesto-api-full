@@ -45,6 +45,12 @@ app.use(requestLogger);
 
 app.use(cors(allowedCors));
 
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
 // роут для регистрации
 app.post('/signup', celebrate({
   body: Joi.object().keys({
