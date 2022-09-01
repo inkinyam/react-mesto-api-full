@@ -1,18 +1,18 @@
 import React from 'react';
 import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 
+import Footer from './Footer.js';
 import Header from './Header.js'
 import Main from './Main.js'
-import Footer from './Footer.js';
 
 import ProtectedRoute from './ProtectedRoute.js';
-import ImagePopup from './ImagePopup.js';
 import EditProfilePopup from './EditProfilePopup.js';
 import UpdateAvatarPopup from './UpdateAvatarPopup.js';
 import AddPlacePopup from './AddPlacePopup.js'
+import ImagePopup from './ImagePopup.js';
 import InfoPopup from './InfoPopup.js';
-import Login from './Login.js';
 import Register from './Register.js';
+import Login from './Login.js';
 
 import api from "../utils/api.js";
 import * as mestoAuth from "../utils/mestoAuth.js"
@@ -20,37 +20,53 @@ import { CurrentUserContext } from '../context/CurrentUserContext.js';
 
 
 const App = () => {
-  /*установка контекста для пользователя*/
-  const [currentUser, getCurrentUser] = React.useState({});
-
-  React.useEffect(()=>{
-    api.getUserData()
-      .then((userData)=>{
-        getCurrentUser(userData);
-      })
-      .catch((err) => console.error(err));
-  }, []);
-
   /* хуки на открытие попапов */
   const [isEditProfilePopupOpen, openEditPopup] = React.useState(false);
   const [isAddPlacePopupOpen, openAddPopup] = React.useState(false);
   const [isUpdateAvatarPopupOpen, openUpdateAvatarPopup] = React.useState(false);
   const [isInfoPopupOpen, openInfoPopup] = React.useState(false);
-
-  /*хуки и стейты для авторизации и регистрации пользователей */
-  const [loggedIn, handleLogin]  = React.useState(false); //cтейт для отслеживания залогинился ли пользователь
-  
-  const [email, setEmail] = React.useState('test@test.ru');
-  const [confirmMessage, setСonfirmMessage] = React.useState(false); //стейт для отображения результата на infoPopup
-  const navigate = useNavigate();
-
-  /*хук на определение выбранной карточки*/
   const [selectedCard, setSelectedCard] = React.useState({name: '', link: ''});
-
-  /*хук карточек*/ 
+  const [confirmMessage, setСonfirmMessage] = React.useState(false); //стейт для отображения результата на infoPopup
+  const [email, setEmail] = React.useState('');
   const [cards, setCards] = React.useState([]);
-    
+  const [loggedIn, handleLogin]  = React.useState(false); //cтейт для отслеживания залогинился ли пользователь
 
+  /*установка контекста для пользователя*/
+  const [currentUser, getCurrentUser] = React.useState({});
+
+  const navigate = useNavigate();
+  const jwt = localStorage.getItem('jwt');
+
+  React.useEffect(()=>{
+    if (jwt) {
+      mestoAuth.autorization(jwt);
+      handleLogin(true);
+      setEmail(currentUser.email);
+    } else {
+      console.log('Пользователя не существует');
+      getCurrentUser({});
+      handleLogin(false);
+      navigate("/signin");
+    }
+  }, [])
+
+
+  React.useEffect(()=>{
+    if (loggedIn) {
+      Promise.all([api.getUserData(), api.getCards()])
+      .then((userData, cardsData) => {
+        getCurrentUser(userData);
+        setCards(cardsData);
+      })
+      .then(() => { navigate('/')})
+      .catch((err) => console.error(err))
+    } else {
+      console.log('Вам нужно авторизироваться!');
+    }
+  }, loggedIn);
+
+
+ 
 
 
   /* обработчики  */
@@ -100,14 +116,6 @@ const App = () => {
       .catch((err) => console.error(err));
   }
 
-  /*получаем карточки с api*/ 
-  React.useEffect(()=>{
-    api.getCards()
-      .then((cardsData)=>{
-         setCards(cardsData.reverse());
-      })
-      .catch((err) => console.error(err));
-  }, [])
 
   const renewCards = (newCard, id) => {
     setCards((state) => state.map((c) => c._id === id ? newCard : c));
@@ -185,7 +193,7 @@ const App = () => {
 
 /*проверяем корректен ли токен, который хранится в local storage*/
   React.useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
+    
     if (jwt) {
       mestoAuth.checkToken(jwt)
         .then(res => { 
@@ -205,8 +213,6 @@ const App = () => {
     handleLogin(false);
   };
 
-
-/* Спасибо за подсказки, сделаю все обязательно <3 */
 
 
 /* возвращаемый объект */

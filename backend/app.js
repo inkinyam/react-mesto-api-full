@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
@@ -10,7 +11,6 @@ const { celebrate, Joi } = require('celebrate');
 
 const auth = require('./middlewares/auth');
 const handleErrors = require('./middlewares/handleErrors');
-/* const handleCors = require('./middlewares/handeCors'); */
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { ErrNotFound } = require('./errors/errors');
 

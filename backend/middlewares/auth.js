@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const { ErrAutorization } = require('../errors/errors');
 
+const { NODE_ENV, SECRETKEY } = process.env;
+
 const extractBearerToken = (header) => {
   const token = header.replace('Bearer ', '');
   return token;
@@ -16,7 +18,7 @@ module.exports = (req, res, next) => {
   let payload;
 
   try {
-    payload = jwt.verify(token, 'secret');
+    payload = jwt.verify(token, NODE_ENV === 'production' ? SECRETKEY : 'secret');
   } catch (err) {
     throw new ErrAutorization('Вам нужно авторизироваться');
   }
